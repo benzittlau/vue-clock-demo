@@ -2,22 +2,32 @@
   <div class="hello">
     <div class="container">
       <div class="row">
-        <div class="col-4">Column</div>
-        <div class="col-4">Column</div>
-        <div class="col-4">Column</div>
-        <div class="col-4">Column</div>
+        <zone-clock time-zone="America/Edmonton"></zone-clock>
+        <zone-clock time-zone="Asia/Tokyo"></zone-clock>
+        <zone-clock time-zone="America/Los_Angeles"></zone-clock>
+        <zone-clock time-zone="Asia/Kolkata"></zone-clock>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import ZoneClock from './ZoneClock';
+
 export default {
-  name: 'HelloWorld',
+  name: 'ClockWall',
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
+      timezones: [
+        'America/Edmonton',
+        'Asia/Tokyo',
+        'America/Los_Angeles',
+        'Asia/Kolkata',
+      ],
     };
+  },
+  components: {
+    'zone-clock': ZoneClock,
   },
 };
 </script>

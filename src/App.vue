@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <p class="lead">TEST!</p>
+    <img id="logo" src="./assets/clock.png">
     <router-view/>
   </div>
 </template>
@@ -22,6 +21,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#logo {
+  width: 200px;
+  height: 200px;
+  padding: 30px;
 }
 
 </style>
