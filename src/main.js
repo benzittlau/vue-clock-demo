@@ -7,6 +7,20 @@ import router from './router';
 
 Vue.config.productionTip = false;
 
+// Load our service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then((registration) => {
+        // eslint-disable-next-line no-console
+        console.log(`Registration was successful with scope ${registration.scope}.`);
+      }, () => {
+        // eslint-disable-next-line no-console
+        console.log('Registration was unsuccessful.');
+      });
+  });
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
