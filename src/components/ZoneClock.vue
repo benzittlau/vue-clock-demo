@@ -1,5 +1,5 @@
 <template>
-  <div class="col-4">
+  <div class="col-4" v-on:click="refreshCache">
     <h5>{{ timeZone }}</h5>
     <p>{{ timeStringWithFallback }}</p>
   </div>
@@ -23,16 +23,25 @@ export default {
 
       return this.timeString;
     },
+
+    // eslint-disable-next-line
+    timeStringUrl: function() {
+      return `/api/timezone/${encodeURIComponent(this.timeZone)}`;
+    },
   },
   mounted() {
     this.fetchTimeString();
   },
 
   methods: {
-    fetchTimeString() {
-      const url = `/api/timezone/${encodeURIComponent(this.timeZone)}`;
+    refreshCache() {
+      // eslint-disable-next-line no-console
+      console.log(`Telling Service Worker to clear cache for: ${this.timeStringUrl} `);
+      navigator.serviceWorker.controller.postMessage({ url: this.timeStringUrl });
+    },
 
-      fetch(url)
+    fetchTimeString() {
+      fetch(this.timeStringUrl)
         .then((res) => {
           if (!res.ok) {
             throw Error('Request failed');
@@ -61,5 +70,6 @@ export default {
   padding-bottom: .75rem;
   background-color: rgba(86, 61, 124, 0.15);
   border: 1px solid rgba(86, 61, 124, 0.2);
+  cursor: pointer;
 }
 </style>

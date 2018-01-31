@@ -45,3 +45,10 @@ self.addEventListener('fetch', function(event) {
     )
   );
 });
+
+self.addEventListener('message', function(event){
+  console.log(`Removing entry from cache for resource url: '${event.data.url}'`)
+  caches.open(CACHE_NAME).then(function(cache) {
+    cache.delete(event.data.url);
+  })
+});
