@@ -10,7 +10,7 @@ Vue.config.productionTip = false;
 // Load our service worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
+    navigator.serviceWorker.register('service-worker.js')
       .then((registration) => {
         // eslint-disable-next-line no-console
         console.log(`Registration was successful with scope ${registration.scope}.`);
