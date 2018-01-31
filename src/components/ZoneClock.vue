@@ -40,6 +40,8 @@ export default {
 
       // Handler for recieving message reply from service worker
       messageChannel.port1.onmessage = () => {
+        // eslint-disable-next-line no-console
+        console.log(`Confirmation from Service Worker cache cleared for: ${this.timeStringUrl} `);
         this.fetchTimeString();
       };
 
