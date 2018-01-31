@@ -29,9 +29,8 @@ self.addEventListener('fetch', function(event) {
         if (response) {
           return response;
         }
-        // TODO: How to avoid this proxying when
-        // trying to simulate offline other
-        // than having to kill the server
+
+        // Fallback to attempting the request against the network
         return fetch(event.request);
       }
     )
