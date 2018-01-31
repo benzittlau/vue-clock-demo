@@ -49,6 +49,8 @@ self.addEventListener('fetch', function(event) {
 self.addEventListener('message', function(event){
   console.log(`Removing entry from cache for resource url: '${event.data.url}'`)
   caches.open(CACHE_NAME).then(function(cache) {
-    cache.delete(event.data.url);
-  })
+    return cache.delete(event.data.url);
+  }).then(function() {
+    event.ports[0].postMessage('Removed cache entry successfully');
+  });
 });

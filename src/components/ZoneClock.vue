@@ -35,9 +35,20 @@ export default {
 
   methods: {
     refreshCache() {
+      // Create a Message Channel
+      const messageChannel = new MessageChannel();
+
+      // Handler for recieving message reply from service worker
+      messageChannel.port1.onmessage = () => {
+        this.fetchTimeString();
+      };
+
       // eslint-disable-next-line no-console
       console.log(`Telling Service Worker to clear cache for: ${this.timeStringUrl} `);
-      navigator.serviceWorker.controller.postMessage({ url: this.timeStringUrl });
+      navigator.serviceWorker.controller.postMessage(
+        { url: this.timeStringUrl },
+        [messageChannel.port2],
+      );
     },
 
     fetchTimeString() {
@@ -54,8 +65,6 @@ export default {
           // eslint-disable-next-line no-console
           console.log(`Request for timezone ${this.timeZone} failed.`);
         });
-
-      setTimeout(this.fetchTimeString.bind(this), 5000);
     },
 
   },
