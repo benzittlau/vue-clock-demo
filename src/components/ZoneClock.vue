@@ -25,40 +25,36 @@ export default {
     },
   },
   mounted() {
-    const url = `/api/timezone/${encodeURIComponent(this.timeZone)}`;
-    fetch(url)
-      .then((res) => {
-        if (!res.ok) {
-          throw Error('Request failed');
-        }
+    this.fetchTimeString();
+  },
 
-        return res.text();
-      }).then((timeResponse) => {
-        this.timeString = timeResponse;
-      }).catch(() => {
-        // eslint-disable-next-line no-console
-        console.log(`Request for timezone ${this.timeZone} failed.`);
-      });
+  methods: {
+    fetchTimeString() {
+      const url = `/api/timezone/${encodeURIComponent(this.timeZone)}`;
+
+      fetch(url)
+        .then((res) => {
+          if (!res.ok) {
+            throw Error('Request failed');
+          }
+
+          return res.text();
+        }).then((timeResponse) => {
+          this.timeString = timeResponse;
+        }).catch(() => {
+          // eslint-disable-next-line no-console
+          console.log(`Request for timezone ${this.timeZone} failed.`);
+        });
+
+      setTimeout(this.fetchTimeString.bind(this), 5000);
+    },
+
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 
 .col, [class^="col-"] {
   padding-top: .75rem;

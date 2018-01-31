@@ -21,17 +21,26 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', function(event) {
-  console.log(`Checking cache for resource '${event.request.url}'`);
+  // Avoid sockjs noise in our cache
+  if(event.request.url.match(/sockjs/)) { return }
+
+  console.log(`Checking cache for resource: '${event.request.url}'`);
   event.respondWith(
     caches.match(event.request)
       .then(function(response) {
         // Cache hit - return response
         if (response) {
+          console.log(`Cache hit for resource: '${event.request.url}'`)
           return response;
         }
 
-        // Fallback to attempting the request against the network
-        return fetch(event.request);
+        return fetch(event.request).then(function(response) {
+          caches.open(CACHE_NAME).then(function(cache) {
+            cache.put(event.request, response.clone());
+          });
+
+          return response.clone();
+        });
       }
     )
   );
