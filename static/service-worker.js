@@ -34,6 +34,7 @@ self.addEventListener('fetch', function(event) {
           return response;
         }
 
+        // Cache miss - add to cache
         return fetch(event.request).then(function(response) {
           caches.open(CACHE_NAME).then(function(cache) {
             cache.put(event.request, response.clone());
